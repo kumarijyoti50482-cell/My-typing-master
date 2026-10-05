@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+  <title>My Typing Master - Free Online Typing Test</title>
+
+  <meta name="description"
+        content="My Typing Master is a free online typing practice and typing speed test. Improve your typing speed, WPM and accuracy with easy typing lessons.">
+
+  <meta name="keywords"
+        content="typing test, typing practice, typing speed test, WPM test, English typing, online typing">
+
+  <meta name="author"
+        content="Raghav">
+
+  <meta name="robots"
+        content="index, follow">
+
+  <meta name="theme-color"
+        content="#111827">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      background: #0f172a;
+      color: #ffffff;
+      min-height: 100vh;
+      padding: 12px;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    /* Header */
+    .header {
+      background: linear-gradient(135deg, #1e293b, #111827);
+      padding: 22px 15px;
+      border-radius: 16px;
+      text-align: center;
+      border: 1px solid #334155;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    }
+
+    .header h1 {
+      color: #facc15;
+      font-size: clamp(26px, 6vw, 40px);
+      margin-bottom: 7px;
+    }
+
+    .header p {
+      color: #cbd5e1;
+      font-size: 15px;
+    }
+
+    /* Stats */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      background: #1e293b;
+      padding: 12px;
+      border-radius: 16px;
+      margin: 12px 0;
+      border: 1px solid #334155;
+    }
+
+    .stat {
+      text-align: center;
+      padding: 8px 4px;
+    }
+
+    .stat span {
+      display: block;
+      color: #94a3b8;
+      font-size: 13px;
+      margin-bottom: 5px;
+    }
+
+    .stat b {
+      font-size: 22px;
+      color: #ffffff;
+    }
+
+    /* Lesson */
+    .lesson-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      color: #cbd5e1;
+      font-size: 14px;
+    }
+
+    .text-box {
+      background: #1e293b;
+      padding: 20px;
+      border-radius: 16px;
+      min-height: 150px;
+      font-size: clamp(18px, 4vw, 24px);
+      line-height: 1.7;
+      letter-spacing: 0.5px;
+      border: 1px solid #334155;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.18);
+      overflow-wrap: break-word;
+    }
+
+    .text-box span {
+      color: #cbd5e1;
+      transition: 0.1s;
+    }
+
+    .correct {
+      color: #22c55e !important;
+    }
+
+    .wrong {
+      color: #ffffff !important;
+      background: #dc2626;
+      border-radius: 3px;
+    }
+
+    .current {
+      border-bottom: 3px solid #facc15;
+    }
+
+    /* Input */
+    #input {
+      width: 100%;
+      padding: 16px;
+      font-size: 20px;
+      border-radius: 12px;
+      border: 2px solid #facc15;
+      margin-top: 12px;
+      outline: none;
+      color: #111827;
+      background: #ffffff;
+    }
+
+    #input:focus {
+      box-shadow: 0 0 0 4px rgba(250, 204, 21, 0.15);
+    }
+
+    #input:disabled {
+      background: #cbd5e1;
+      cursor: not-allowed;
+    }
+
+    /* Buttons */
+    .btns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    button {
+      padding: 14px;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.15s, opacity 0.15s;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      opacity: 0.9;
+    }
+
+    #restart {
+      background: #facc15;
+      color: #111827;
+    }
+
+    #next {
+      background: #22c55e;
+      color: #052e16;
+    }
+
+    /* Keyboard */
+    .keyboard {
+      margin-top: 15px;
+      background: #1e293b;
+      padding: 14px;
+      border-radius: 12px;
+      text-align: center;
+      color: #94a3b8;
+      font-size: 14px;
+      border: 1px solid #334155;
+    }
+
+    /* Result */
+    .result {
+      display: none;
+      background: linear-gradient(135deg, #14532d, #166534);
+      margin-top: 15px;
+      padding: 20px;
+      border-radius: 16px;
+      text-align: center;
+      border: 1px solid #22c55e;
+    }
+
+    .result h2 {
+      color: #facc15;
+      margin-bottom: 10px;
+    }
+
+    .result p {
+      color: #dcfce7;
+      margin: 5px 0;
+    }
+
+    .footer {
+      text-align: center;
+      color: #64748b;
+      font-size: 13px;
+      margin: 20px 0 8px;
+    }
+
+    /* Mobile */
+    @media (max-width: 600px) {
+      body {
+        padding: 8px;
+      }
+
+      .stats {
+        gap: 5px;
+        padding: 8px;
+      }
+
+      .stat b {
+        font-size: 18px;
+      }
+
+      .stat span {
+        font-size: 11px;
+      }
+
+      .text-box {
+        padding: 15px;
+        min-height: 170px;
+      }
+
+      #input {
+        font-size: 18px;
+      }
+
+      .btns {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <!-- Header -->
+    <header class="header">
+      <h1>⌨️ MY TYPING MASTER</h1>
+      <p>Free Online Typing Practice & Speed Test</p>
+      <p>Created by Raghav</p>
+    </header>
+
+    <!-- Statistics -->
+    <section class="stats">
+
+      <div class="stat">
+        <span>WPM</span>
+        <b id="wpm">0</b>
+      </div>
+
+      <div class="stat">
+        <span>Accuracy</span>
+        <b id="acc">100%</b>
+      </div>
+
+      <div class="stat">
+        <span>Time</span>
+        <b id="time">60</b>
+      </div>
+
+      <div class="stat">
+        <span>Score</span>
+        <b id="score">0</b>
+      </div>
+
+    </section>
+
+    <!-- Lesson -->
+    <div class="lesson-info">
+      <span id="lessonName">Lesson 1</span>
+      <span id="progress">0%</span>
+    </div>
+
+    <main>
+
+      <div class="text-box" id="textBox"></div>
+
+      <input
+        type="text"
+        id="input"
+        placeholder="यहाँ टाइप करना शुरू करें..."
+        autocomplete="off"
+        autocapitalize="off"
+        spellcheck="false"
+      >
+
+      <div class="btns">
+        <button id="restart">🔄 Restart</button>
+        <button id="next">➡️ Next Lesson</button>
+      </div>
+
+      <div class="keyboard">
+        ⌨️ Practice daily • Improve your Speed • Improve your Accuracy
+      </div>
+
+      <!-- Result -->
+      <div class="result" id="result">
+        <h2>🎉 Test Complete!</h2>
+        <p>Speed: <strong id="finalWpm">0</strong> WPM</p>
+        <p>Accuracy: <strong id="finalAcc">0%</strong></p>
+        <p>Score: <strong id="finalScore">0</strong></p>
+        <p id="message"></p>
+      </div>
+
+    </main>
+
+    <footer class="footer">
+      © 2026 My Typing Master • Free Typing Practice
+    </footer>
+
+  </div>
+
+  <script>
+
+    /* =========================
+       LESSONS
+    ========================= */
+
+    const lessons = [
+
+      "the quick brown fox jumps over the lazy dog practice typing daily",
+
+      "typing master is a simple tool for learning keyboard speed and accuracy",
+
+      "hello world welcome to my typing website made for typing practice",
+
+      "practice typing every day and improve your speed accuracy and confidence",
+
+      "practice makes a man perfect so keep typing and improve your speed"
+
+    ];
+
+
+    /* =========================
+       SETTINGS
+    ========================= */
+
+    const TEST_TIME = 60;
+
+
+    /* =========================
+       VARIABLES
+    ========================= */
+
+    let lessonIndex = 0;
+
+    let mistakes = 0;
+
+    let correctChars = 0;
+
+    let totalTyped = 0;
+
+    let time = TEST_TIME;
+
+    let timer = null;
+
+    let started = false;
+
+    let finished = false;
+
+
+    /* =========================
+       ELEMENTS
+    ========================= */
+
+    const textBox = document.getElementById("textBox");
+
+    const input = document.getElementById("input");
+
+    const wpmEl = document.getElementById("wpm");
+
+    const accEl = document.getElementById("acc");
+
+    const timeEl = document.getElementById("time");
+
+    const scoreEl = document.getElementById("score");
+
+    const lessonName = document.getElementById("lessonName");
+
+    const progressEl = document.getElementById("progress");
+
+    const result = document.getElementById("result");
+
+    const finalWpm = document.getElementById("finalWpm");
+
+    const finalAcc = document.getElementById("finalAcc");
+
+    const finalScore = document.getElementById("finalScore");
+
+    const message = document.getElementById("message");
+
+
+    /* =========================
+       LOAD LESSON
+    ========================= */
+
+    function loadLesson() {
+
+      clearInterval(timer);
+
+      started = false;
+
+      finished = false;
+
+      time = TEST_TIME;
+
+      mistakes = 0;
+
+      correctChars = 0;
+
+      totalTyped = 0;
+
+      input.value = "";
+
+      input.disabled = false;
+
+      wpmEl.textContent = "0";
+
+      accEl.textContent = "100%";
+
+      timeEl.textContent = time;
+
+      scoreEl.textContent = "0";
+
+      result.style.display = "none";
+
+      textBox.innerHTML = "";
+
+      const text = lessons[lessonIndex];
+
+      text.split("").forEach((character, index) => {
+
+        const span = document.createElement("span");
+
+        span.textContent = character;
+
+        span.dataset.index = index;
+
+        textBox.appendChild(span);
+
+      });
+
+      lessonName.textContent =
+        "Lesson " + (lessonIndex + 1);
+
+      progressEl.textContent = "0%";
+
+      highlightCurrent();
+
+    }
+
+
+    /* =========================
+       CURRENT CHARACTER
+    ========================= */
+
+    function highlightCurrent() {
+
+      const spans = textBox.querySelectorAll("span");
+
+      spans.forEach(span => {
+        span.classList.remove("current");
+      });
+
+      const currentIndex = input.value.length;
+
+      if (spans[currentIndex]) {
+        spans[currentIndex].classList.add("current");
+      }
+    }
+
+
+    /* =========================
+       TIMER
+    ========================= */
+
+    function startTimer() {
+
+      if (started) return;
+
+      started = true;
+
+      timer = setInterval(() => {
+
+        if (time > 0) {
+
+          time--;
+
+          timeEl.textContent = time;
+
+          calculateWPM();
+
+        } else {
+
+          finishTest();
+
+        }
+
+      }, 1000);
+
+    }
+
+
+    /* =========================
+       WPM
+    ========================= */
+
+    function calculateWPM() {
+
+      const elapsedSeconds = TEST_TIME - time;
+
+      if (elapsedSeconds <= 0) {
+
+        wpmEl.textContent = "0";
+
+        return;
+
+      }
+
+      const words = correctChars / 5;
+
+      const minutes = elapsedSeconds / 60;
+
+      const wpm = Math.round(words / minutes);
+
+      wpmEl.textContent = isFinite(wpm) ? wpm : 0;
+
+    }
+
+
+    /* =========================
+       ACCURACY
+    ========================= */
+
+    function calculateAccuracy() {
+
+      if (totalTyped === 0) {
+
+        return 100;
+
+      }
+
+      const accuracy =
+        Math.round((correctChars / totalTyped) * 100);
+
+      return Math.max(0, Math.min(100, accuracy));
+
+    }
+
+
+    /* =========================
+       INPUT
+    ========================= */
+
+    input.addEventListener("input", () => {
+
+      if (finished) return;
+
+      startTimer();
+
+      const typed = input.value;
+
+      const text = lessons[lessonIndex];
+
+      const spans = textBox.querySelectorAll("span");
+
+      correctChars = 0;
+
+      mistakes = 0;
+
+      totalTyped = typed.length;
+
+      spans.forEach((span, index) => {
+
+        span.classList.remove("correct", "wrong");
+
+        if (index < typed.length) {
+
+          if (typed[index] === text[index]) {
+
+            span.classList.add("correct");
+
+            correctChars++;
+
+          } else {
+
+            span.classList.add("wrong");
+
+            mistakes++;
+
+          }
+
+        }
+
+      });
+
+      const accuracy = calculateAccuracy();
+
+      accEl.textContent = accuracy + "%";
+
+      scoreEl.textContent = correctChars;
+
+      calculateWPM();
+
+      const progress =
+        Math.min(
+          100,
+          Math.round((typed.length / text.length) * 100)
+        );
+
+      progressEl.textContent = progress + "%";
+
+      highlightCurrent();
+
+      /* Complete lesson */
+
+      if (typed.length >= text.length) {
+
+        finishTest();
+
+      }
+
+    });
+
+
+    /* =========================
+       FINISH TEST
+    ========================= */
+
+    function finishTest() {
+
+      if (finished) return;
+
+      finished = true;
+
+      clearInterval(timer);
+
+      calculateWPM();
+
+      input.disabled = true;
+
+      const accuracy = calculateAccuracy();
+
+      finalWpm.textContent = wpmEl.textContent;
+
+      finalAcc.textContent = accuracy + "%";
+
+      finalScore.textContent = correctChars;
+
+      if (Number(wpmEl.textContent) >= 40) {
+
+        message.textContent =
+          "🔥 Excellent! Your typing speed is very good.";
+
+      } else if (Number(wpmEl.textContent) >= 25) {
+
+        message.textContent =
+          "👍 Good job! Keep practicing to improve.";
+
+      } else {
+
+        message.textContent =
+          "💪 Keep practicing every day. You will get faster!";
+
+      }
+
+      result.style.display = "block";
+
+    }
+
+
+    /* =========================
+       RESTART
+    ========================= */
+
+    document
+      .getElementById("restart")
+      .addEventListener("click", () => {
+
+        loadLesson();
+
+        input.focus();
+
+      });
+
+
+    /* =========================
+       NEXT LESSON
+    ========================= */
+
+    document
+      .getElementById("next")
+      .addEventListener("click", () => {
+
+        lessonIndex =
+          (lessonIndex + 1) % lessons.length;
+
+        loadLesson();
+
+        input.focus();
+
+      });
+
+
+    /* =========================
+       KEYBOARD SHORTCUT
+    ========================= */
+
+    document.addEventListener("keydown", (event) => {
+
+      if (event.key === "Escape") {
+
+        loadLesson();
+
+        input.focus();
+
+      }
+
+    });
+
+
+    /* =========================
+       START
+    ========================= */
+
+    loadLesson();
+
+  </script>
+
+</body>
+    </html>
